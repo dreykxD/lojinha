@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>It Candle Essence</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+    h1 {
+      color: #333;
+    }
+    #busca {
+      padding: 8px;
+      font-size: 16px;
+      width: 200px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .produto {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      width: 220px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .produto:hover {
+      transform: scale(1.05);
+    }
+    .produto img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .produto h3 {
+      margin: 10px 0 5px;
+    }
+    .produto p {
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .btn-whatsapp {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-whatsapp:hover {
+      background: #20b358;
+    }
+  </style>
+</head>
+<body>
+  <h1>It Candle Essence</h1>
+  <p>Escolha seu produto e fale comigo no WhatsApp!</p>
+
+  <input type="text" id="busca" placeholder="Buscar produto..." onkeyup="filtrarProdutos()">
+
+  <div class="produtos" id="listaProdutos"></div>
+
+  <script>
+    // Lista de produtos com fotos reais
+    const produtos = [
+      {
+        nome: "Vela 01",
+        preco: 39.90,
+        imagem: "img/vela01.jpeg",
+        mensagem: "Olá! Tenho interesse na Vela 01 de R$39,90."
+      },
+      {
+        nome: "Vela 02",
+        preco: 39.90,
+        imagem: "img/vela02.jpeg",
+        mensagem: "Olá! Tenho interesse na Vela 02 de R$39,90."
+      },
+      {
+        nome: "Vela 03",
+        preco: 39.90,
+        imagem: "img/vela03.jpeg",
+        mensagem: "Olá! Gostaria de comprar a Vela 03 de R$39,90."
+      },
+      {
+        nome: "Vela 04",
+        preco: 39.90,
+        imagem: "img/vela04.jpeg",
+        mensagem: "Olá! Tenho interesse na Vela 04 de R$39,90."
+      }
+    ];
+
+    // Seu número do WhatsApp (altere aqui)
+    const numeroWhatsApp = "11976940939"; 
+    const lista = document.getElementById("listaProdutos");
+
+    // Função para mostrar os produtos
+    function mostrarProdutos(produtosFiltrados) {
+      lista.innerHTML = ""; 
+      produtosFiltrados.forEach(produto => {
+        const div = document.createElement("div");
+        div.className = "produto";
+
+        div.innerHTML = `
+          <img src="${produto.imagem}" alt="${produto.nome}">
+          <h3>${produto.nome}</h3>
+          <p>R$ ${produto.preco.toFixed(2)}</p>
+          <a class="btn-whatsapp" target="_blank" 
+             href="https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(produto.mensagem)}">
+             Comprar no WhatsApp
+          </a>
+        `;
+
+        lista.appendChild(div);
+      });
+    }
+
+    // Inicializa mostrando todos os produtos
+    mostrarProdutos(produtos);
+
+    // Função de busca
+    function filtrarProdutos() {
+      const busca = document.getElementById("busca").value.toLowerCase();
+      const produtosFiltrados = produtos.filter(produto =>
+        produto.nome.toLowerCase().includes(busca)
+      );
+      mostrarProdutos(produtosFiltrados);
+    }
+  </script>
+</body>
+</html>
