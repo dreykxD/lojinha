@@ -13,13 +13,46 @@
     h1 {
       color: #333;
     }
-    #busca {
+    .filtros {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      text-align: left;
+    }
+    .filtros input[type="text"] {
       padding: 8px;
       font-size: 16px;
-      width: 200px;
-      margin-bottom: 20px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      width: 200px;
+    }
+    .grupo-filtro {
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .grupo-filtro h4 {
+      margin: 5px 0 10px;
+      font-size: 14px;
+      color: #444;
+    }
+    .btn-limpar {
+      background: #ff4d4d;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .btn-limpar:hover {
+      background: #cc0000;
     }
     .produtos {
       display: flex;
@@ -71,46 +104,127 @@
   <h1>It Candle Essence</h1>
   <p>Escolha seu produto e fale comigo no WhatsApp!</p>
 
-  <input type="text" id="busca" placeholder="Buscar produto..." onkeyup="filtrarProdutos()">
+  <!-- Filtros -->
+  <div class="filtros">
+    <!-- Busca -->
+    <div class="grupo-filtro">
+      <h4>Buscar</h4>
+      <input type="text" id="busca" placeholder="Nome do produto..." onkeyup="filtrarProdutos()">
+    </div>
+
+    <!-- Categorias -->
+    <div class="grupo-filtro">
+      <h4>Categorias</h4>
+      <label><input type="checkbox" class="filtro-categoria" value="aromatica" onchange="filtrarProdutos()"> Aromática</label><br>
+      <label><input type="checkbox" class="filtro-categoria" value="relaxante" onchange="filtrarProdutos()"> Relaxante</label><br>
+      <label><input type="checkbox" class="filtro-categoria" value="decorativa" onchange="filtrarProdutos()"> Decorativa</label>
+    </div>
+
+    <!-- Preços -->
+    <div class="grupo-filtro">
+      <h4>Preço</h4>
+      <label><input type="checkbox" class="filtro-preco" value="ate40" onchange="filtrarProdutos()"> Até R$40</label><br>
+      <label><input type="checkbox" class="filtro-preco" value="40a60" onchange="filtrarProdutos()"> R$40 a R$60</label><br>
+      <label><input type="checkbox" class="filtro-preco" value="acima60" onchange="filtrarProdutos()"> Acima de R$60</label>
+    </div>
+
+    <!-- Botão limpar -->
+    <div class="grupo-filtro" style="text-align:center;">
+      <h4>Opções</h4>
+      <button class="btn-limpar" onclick="limparFiltros()">Limpar Filtros</button>
+    </div>
+  </div>
 
   <div class="produtos" id="listaProdutos"></div>
 
   <script>
-    // Lista de produtos com fotos reais
+    // Lista de produtos com categorias
     const produtos = [
       {
-        nome: "Vela 01",
-        preco: 39.90,
+        nome: "VELA PEONIA",
+        preco: 18.90,
+        categoria: "aromatica",
         imagem: "img/vela01.jpeg",
-        mensagem: "Olá! Tenho interesse na Vela 01 de R$39,90."
+        mensagem: "Olá! Tenho interesse na VELA PEONIA de R$18,90."
       },
       {
-        nome: "Vela 02",
-        preco: 39.90,
+        nome: "HOME SPRAY 200ml",
+        preco: 29.90,
+        categoria: "relaxante",
         imagem: "img/vela02.jpeg",
-        mensagem: "Olá! Tenho interesse na Vela 02 de R$39,90."
+        mensagem: "Olá! Tenho interesse na HOME SPRAY 200ml de R$29,90."
       },
       {
-        nome: "Vela 03",
-        preco: 39.90,
+        nome: "KITITCANDLEII",
+        preco: 189.90,
+        categoria: "decorativa",
         imagem: "img/vela03.jpeg",
-        mensagem: "Olá! Gostaria de comprar a Vela 03 de R$39,90."
+        mensagem: "Olá! Gostaria de comprar a KITITCANDLEII de R$189,90."
       },
       {
-        nome: "Vela 04",
-        preco: 39.90,
+        nome: "ORATÓRIO NOSSA SENHORA APARECIDA",
+        preco: 99.00,
+        categoria: "aromatica",
         imagem: "img/vela04.jpeg",
-        mensagem: "Olá! Tenho interesse na Vela 04 de R$39,90."
+        mensagem: "Olá! Tenho interesse na ORATÓRIO NOSSA SENHORA APARECIDA de R$99,00."
+      },
+      {
+        nome: "AROMATIZADOR DE AMBIENTES 250ml",
+        preco: 69.90,
+        categoria: "aromatica",
+        imagem: "img/vela05.jpeg",
+        mensagem: "Olá! Tenho interesse na AROMATIZADOR DE AMBIENTES 250ml de R$69,90."
+      },
+      {
+        nome: "VELAS AROMATICAS 180g",
+        preco: 59.90,
+        categoria: "decorativa",
+        imagem: "img/vela06.jpeg",
+        mensagem: "Olá! Tenho interesse na VELAS AROMATICAS 180g de R$59,90."
+      },
+      {
+        nome: "FLOR DE PEONIA COM FLOR D OURO 180g",
+        preco: 59.90,
+        categoria: "decorativa",
+        imagem: "img/vela07.jpeg",
+        mensagem: "Olá! Tenho interesse na FLOR DE PEONIA COM FLOR D OURO 180g de R$59,90."
+      },
+      {
+        nome: "MINIVELAS AROMÁTICAS 30g",
+        preco: 69.90,
+        categoria: "decorativa,aromatica",
+        imagem: "img/vela08.jpeg",
+        mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 30g de R$8,90."
+      },
+      {
+        nome: "MINIVELAS AROMÁTICAS 60g",
+        preco: 69.90,
+        categoria: "decorativa,aromatica",
+        imagem: "img/vela09.jpeg",
+        mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 60g de R$13,90."
+      },
+      {
+        nome: "KIT IT CANDLEI",
+        preco: 69.90,
+        categoria: "aromatica,decorativa",
+        imagem: "img/vela10.jpeg",
+        mensagem: "Olá! Tenho interesse na KIT IT CANDLEI de R$139,90."
       }
+      
+      
     ];
 
-    // Seu número do WhatsApp (altere aqui)
+    // Seu número do WhatsApp
     const numeroWhatsApp = "11976940939"; 
     const lista = document.getElementById("listaProdutos");
 
     // Função para mostrar os produtos
     function mostrarProdutos(produtosFiltrados) {
       lista.innerHTML = ""; 
+      if (produtosFiltrados.length === 0) {
+        lista.innerHTML = "<p>Nenhum produto encontrado.</p>";
+        return;
+      }
       produtosFiltrados.forEach(produto => {
         const div = document.createElement("div");
         div.className = "produto";
@@ -132,13 +246,50 @@
     // Inicializa mostrando todos os produtos
     mostrarProdutos(produtos);
 
-    // Função de busca
+    // Função de filtro avançado
     function filtrarProdutos() {
       const busca = document.getElementById("busca").value.toLowerCase();
-      const produtosFiltrados = produtos.filter(produto =>
-        produto.nome.toLowerCase().includes(busca)
-      );
+
+      // Pega categorias selecionadas
+      const categoriasSelecionadas = Array.from(document.querySelectorAll(".filtro-categoria:checked"))
+                                          .map(cb => cb.value);
+
+      // Pega faixas de preço selecionadas
+      const precosSelecionados = Array.from(document.querySelectorAll(".filtro-preco:checked"))
+                                      .map(cb => cb.value);
+
+      const produtosFiltrados = produtos.filter(produto => {
+        // Filtro por nome
+        const nomeMatch = produto.nome.toLowerCase().includes(busca);
+
+        // Filtro por categoria
+        const categoriaMatch = categoriasSelecionadas.length === 0 || categoriasSelecionadas.includes(produto.categoria);
+
+        // Filtro por faixa de preço
+        let precoMatch = false;
+        if (precosSelecionados.length === 0) {
+          precoMatch = true;
+        } else {
+          for (let faixa of precosSelecionados) {
+            if (faixa === "ate40" && produto.preco <= 40) precoMatch = true;
+            if (faixa === "40a60" && produto.preco > 40 && produto.preco <= 60) precoMatch = true;
+            if (faixa === "acima60" && produto.preco > 60) precoMatch = true;
+          }
+        }
+
+        return nomeMatch && categoriaMatch && precoMatch;
+      });
+
       mostrarProdutos(produtosFiltrados);
+    }
+
+    // Função para limpar filtros
+    function limparFiltros() {
+      document.getElementById("busca").value = "";
+
+      document.querySelectorAll(".filtro-categoria, .filtro-preco").forEach(cb => cb.checked = false);
+
+      mostrarProdutos(produtos); // mostra tudo de novo
     }
   </script>
 </body>
