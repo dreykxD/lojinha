@@ -15,11 +15,10 @@
     /* Sidebar */
     .sidebar {
       width: 260px;
+      height: 100vh;
+      background-color: transparent;
+      color: white;
       padding: 20px;
-      background: #fff;
-      border-right: 1px solid #ddd;
-      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-      min-height: 100vh;
     }
 
     .sidebar h2 {
@@ -136,8 +135,11 @@
     <h2>Filtros</h2>
 
     <!-- Busca -->
-    <h4>Buscar</h4>
-    <input type="text" id="busca" placeholder="Nome do produto..." onkeyup="filtrarProdutos()">
+<h4>Buscar</h4>
+<div class="busca-container">
+  <input type="text" id="busca" placeholder="Nome do produto..." onkeyup="filtrarProdutos()">
+  <button id="btn-busca" onclick="filtrarProdutos()">🔍</button>
+</div>
 
     <!-- Categorias -->
     <h4>Categorias</h4>
@@ -147,7 +149,7 @@
 
     <!-- Preços -->
     <h4>Preço</h4>
-    <label><input type="checkbox" class="filtro-preco" value="ate40" onchange="filtrarProdutos()"> A parit de R$ 8,90</label>
+    <label><input type="checkbox" class="filtro-preco" value="ate40" onchange="filtrarProdutos()"> A parir de R$ 8,90</label>
     <label><input type="checkbox" class="filtro-preco" value="40a60" onchange="filtrarProdutos()"> A partir de R$39,90</label>
     <label><input type="checkbox" class="filtro-preco" value="acima60" onchange="filtrarProdutos()"> A partir  de R$60</label>
 
@@ -175,7 +177,9 @@
       { nome: "MINIVELAS AROMÁTICAS 30g", preco: 8.90, categoria: "decorativa,aromatica", imagem: "img/vela08.jpeg", mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 30g de R$8,90." },
       { nome: "MINIVELAS AROMÁTICAS 60g", preco: 13.90, categoria: "decorativa,aromatica", imagem: "img/vela09.jpeg", mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 60g de R$13,90." },
       { nome: "KIT IT CANDLEI", preco: 139.90, categoria: "aromatica,decorativa", imagem: "img/vela10.jpeg", mensagem: "Olá! Tenho interesse na KIT IT CANDLEI de R$139,90." }
+      
     ];
+
 
     const numeroWhatsApp = "11976940939"; 
     const lista = document.getElementById("listaProdutos");
