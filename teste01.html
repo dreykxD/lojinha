@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>It Candle Essence</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: #f8f8f8;
+      line-height: 1.6;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      padding: 20px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      min-height: 100vh;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .sidebar h4 {
+      margin: 15px 0 10px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .sidebar input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+
+    .sidebar input[type="checkbox"] {
+      margin-right: 8px;
+      transform: scale(1.1);
+    }
+
+    .sidebar label {
+      display: block;
+      margin: 5px 0;
+      cursor: pointer;
+      color: #444;
+    }
+
+    .btn-limpar {
+      background: #ff4d4d;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 15px;
+    }
+    .btn-limpar:hover {
+      background: #cc0000;
+    }
+
+    /* Área principal */
+    .main {
+      flex: 1;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .produto {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      width: 220px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .produto:hover {
+      transform: scale(1.05);
+    }
+    .produto img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .produto h3 {
+      margin: 10px 0 5px;
+    }
+    .produto p {
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .btn-whatsapp {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .btn-whatsapp:hover {
+      background: #20b358;
+    } 
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Filtros</h2>
+
+    <!-- Busca -->
+    <h4>Buscar</h4>
+    <input type="text" id="busca" placeholder="Nome do produto..." onkeyup="filtrarProdutos()">
+
+    <!-- Categorias -->
+    <h4>Categorias</h4>
+    <label><input type="checkbox" class="filtro-categoria" value="aromatica" onchange="filtrarProdutos()"> Aromática</label>
+    <label><input type="checkbox" class="filtro-categoria" value="relaxante" onchange="filtrarProdutos()"> Relaxante</label>
+    <label><input type="checkbox" class="filtro-categoria" value="decorativa" onchange="filtrarProdutos()"> Decorativa</label>
+
+    <!-- Preços -->
+    <h4>Preço</h4>
+    <label><input type="checkbox" class="filtro-preco" value="ate40" onchange="filtrarProdutos()"> A parit de R$ 8,90</label>
+    <label><input type="checkbox" class="filtro-preco" value="40a60" onchange="filtrarProdutos()"> A partir de R$39,90</label>
+    <label><input type="checkbox" class="filtro-preco" value="acima60" onchange="filtrarProdutos()"> A partir  de R$60</label>
+
+    <button class="btn-limpar" onclick="limparFiltros()">Limpar Filtros</button>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main">
+    <h1>It Candle Essence</h1>
+    <p>Escolha seu produto e fale comigo no WhatsApp!</p>
+
+    <div class="produtos" id="listaProdutos"></div>
+  </div>
+
+  <script>
+    // Lista de produtos com categorias
+    const produtos = [
+      { nome: "VELA PEONIA", preco: 18.90, categoria: "aromatica", imagem: "img/vela01.jpeg", mensagem: "Olá! Tenho interesse na VELA PEONIA de R$18,90." },
+      { nome: "HOME SPRAY 200ml", preco: 29.90, categoria: "relaxante", imagem: "img/vela02.jpeg", mensagem: "Olá! Tenho interesse na HOME SPRAY 200ml de R$29,90." },
+      { nome: "KITITCANDLEII", preco: 189.90, categoria: "decorativa", imagem: "img/vela03.jpeg", mensagem: "Olá! Gostaria de comprar a KITITCANDLEII de R$189,90." },
+      { nome: "ORATÓRIO NOSSA SENHORA APARECIDA", preco: 99.00, categoria: "aromatica", imagem: "img/vela04.jpeg", mensagem: "Olá! Tenho interesse na ORATÓRIO NOSSA SENHORA APARECIDA de R$99,00." },
+      { nome: "AROMATIZADOR DE AMBIENTES 250ml", preco: 69.90, categoria: "relaxante", imagem: "img/vela05.jpeg", mensagem: "Olá! Tenho interesse na AROMATIZADOR DE AMBIENTES 250ml de R$69,90." },
+      { nome: "VELAS AROMATICAS 180g", preco: 59.90, categoria: "decorativa", imagem: "img/vela06.jpeg", mensagem: "Olá! Tenho interesse na VELAS AROMATICAS 180g de R$59,90." },
+      { nome: "FLOR DE PEONIA COM FLOR D OURO 180g", preco: 59.90, categoria: "decorativa", imagem: "img/vela07.jpeg", mensagem: "Olá! Tenho interesse na FLOR DE PEONIA COM FLOR D OURO 180g de R$59,90." },
+      { nome: "MINIVELAS AROMÁTICAS 30g", preco: 8.90, categoria: "decorativa,aromatica", imagem: "img/vela08.jpeg", mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 30g de R$8,90." },
+      { nome: "MINIVELAS AROMÁTICAS 60g", preco: 13.90, categoria: "decorativa,aromatica", imagem: "img/vela09.jpeg", mensagem: "Olá! Tenho interesse na MINIVELAS AROMÁTICAS 60g de R$13,90." },
+      { nome: "KIT IT CANDLEI", preco: 139.90, categoria: "aromatica,decorativa", imagem: "img/vela10.jpeg", mensagem: "Olá! Tenho interesse na KIT IT CANDLEI de R$139,90." }
+    ];
+
+    const numeroWhatsApp = "11976940939"; 
+    const lista = document.getElementById("listaProdutos");
+
+    function mostrarProdutos(produtosFiltrados) {
+      lista.innerHTML = ""; 
+      if (produtosFiltrados.length === 0) {
+        lista.innerHTML = "<p>Nenhum produto encontrado.</p>";
+        return;
+      }
+      produtosFiltrados.forEach(produto => {
+        const div = document.createElement("div");
+        div.className = "produto";
+        div.innerHTML = `
+          <img src="${produto.imagem}" alt="${produto.nome}">
+          <h3>${produto.nome}</h3>
+          <p>R$ ${produto.preco.toFixed(2)}</p>
+          <a class="btn-whatsapp" target="_blank" 
+             href="https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(produto.mensagem)}">
+             Comprar no WhatsApp
+          </a>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    mostrarProdutos(produtos);
+
+    function filtrarProdutos() {
+      const busca = document.getElementById("busca").value.toLowerCase();
+      const categoriasSelecionadas = Array.from(document.querySelectorAll(".filtro-categoria:checked")).map(cb => cb.value);
+      const precosSelecionados = Array.from(document.querySelectorAll(".filtro-preco:checked")).map(cb => cb.value);
+
+      const produtosFiltrados = produtos.filter(produto => {
+        const nomeMatch = produto.nome.toLowerCase().includes(busca);
+        const categoriaMatch = categoriasSelecionadas.length === 0 || categoriasSelecionadas.some(cat => produto.categoria.includes(cat));
+        let precoMatch = false;
+        if (precosSelecionados.length === 0) {
+          precoMatch = true;
+        } else {
+          for (let faixa of precosSelecionados) {
+            if (faixa === "ate40" && produto.preco <= 40) precoMatch = true;
+            if (faixa === "40a60" && produto.preco > 40 && produto.preco <= 60) precoMatch = true;
+            if (faixa === "acima60" && produto.preco > 60) precoMatch = true;
+          }
+        }
+        return nomeMatch && categoriaMatch && precoMatch;
+      });
+
+      mostrarProdutos(produtosFiltrados);
+    }
+
+    function limparFiltros() {
+      document.getElementById("busca").value = "";
+      document.querySelectorAll(".filtro-categoria, .filtro-preco").forEach(cb => cb.checked = false);
+      mostrarProdutos(produtos);
+    }
+  </script>
+</body>
+</html>
